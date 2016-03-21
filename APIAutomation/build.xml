@@ -1,0 +1,903 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="APIAutomation">
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="../../../soft/eclipse-jee-luna-R-win32-x86_64/eclipse/"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.7"/>
+    <property name="source" value="1.7"/>
+    <path id="JUnit 4.libraryclasspath">
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit_4.11.0.v201303080030/junit.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+    </path>
+    <path id="APIAutomation.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="lib/httpclient-4.3.5.jar"/>
+        <pathelement location="lib/httpclient-cache-4.3.5.jar"/>
+        <pathelement location="lib/httpcore-4.3.2.jar"/>
+        <pathelement location="lib/httpmime-4.3.5.jar"/>
+        <pathelement location="lib/jackson-annotations-2.3.0.jar"/>
+        <pathelement location="lib/jackson-core-2.3.2.jar"/>
+        <pathelement location="lib/jackson-databind-2.3.2.jar"/>
+        <pathelement location="lib/json-lib-2.3-jdk15.jar"/>
+        <pathelement location="lib/org.json-20120521.jar"/>
+        <pathelement location="lib/proxool-0.8.3.jar"/>
+        <pathelement location="lib/xom-1.2.5.jar"/>
+        <pathelement location="lib/log4j-api-2.3.jar"/>
+        <pathelement location="lib/jxl-2.6.jar"/>
+        <pathelement location="lib/jdom-1.1.jar"/>
+        <pathelement location="lib/xml-apis-1.0.b2.jar"/>
+        <pathelement location="lib/commons-lang-2.4.jar"/>
+        <pathelement location="lib/commons-collections-3.1.jar"/>
+        <pathelement location="lib/commons-logging-1.1.3.jar"/>
+        <pathelement location="lib/ezmorph-1.0.6.jar"/>
+        <pathelement location="lib/commons-beanutils-1.8.0.jar"/>
+        <pathelement location="lib/guava-16.0.1.jar"/>
+        <pathelement location="lib/hibernate-core-4.3.5.Final.jar"/>
+        <pathelement location="lib/spring-beans-4.0.3.RELEASE.jar"/>
+        <pathelement location="lib/spring-context-4.0.3.RELEASE.jar"/>
+        <pathelement location="lib/spring-core-4.0.3.RELEASE.jar"/>
+        <pathelement location="lib/fastjson-1.2.3.jar"/>
+        <pathelement location="lib/hibernate-jpa-2.1-api-1.0.0.Final.jar"/>
+        <pathelement location="lib/commons-csv-1.1.jar"/>
+        <pathelement location="lib/junit-4.11.jar"/>
+        <pathelement location="lib/hamcrest-all-1.3.jar"/>
+        <path refid="JUnit 4.libraryclasspath"/>
+        <pathelement location="lib/disruptor-3.3.2.jar"/>
+        <pathelement location="lib/log4j-core-2.3.jar"/>
+        <pathelement location="lib/poi-3.12-20150511.jar"/>
+        <pathelement location="lib/poi-ooxml-3.12-20150511.jar"/>
+        <pathelement location="lib/javax.mail.jar"/>
+        <pathelement location="lib/spring-test-3.2.14.RELEASE.jar"/>
+        <pathelement location="lib/spring-core-3.2.14.RELEASE.jar"/>
+        <pathelement location="lib/spring-tx-3.2.14.RELEASE.jar"/>
+        <pathelement location="lib/args4j-2.0.29.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="Comparator">
+        <java classname="com.sapi.apitest.datadriven.concurrency.Comparator" failonerror="true" fork="yes">
+            <classpath refid="APIAutomation.classpath"/>
+        </java>
+    </target>
+    <target name="ComparisonEngine">
+        <java classname="com.sapi.apitest.datadriven.comparison.ComparisonEngine" failonerror="true" fork="yes">
+            <classpath refid="APIAutomation.classpath"/>
+        </java>
+    </target>
+    <target name="ExcelDrivenTestCaseExecutor">
+        <java classname="com.sapi.apitest.datadriven.ExcelDrivenTestCaseExecutor" failonerror="true" fork="yes">
+            <classpath refid="APIAutomation.classpath"/>
+        </java>
+    </target>
+    <target name="ExcelDrivenTestContext">
+        <java classname="com.sapi.apitest.datadriven.context.ExcelDrivenTestContext" failonerror="true" fork="yes">
+            <classpath refid="APIAutomation.classpath"/>
+        </java>
+    </target>
+    <target name="ExcelDrivenTestSuiteRunner">
+        <java classname="com.sapi.apitest.datadriven.runner.ExcelDrivenTestSuiteRunner" failonerror="false" fork="yes">
+            <arg line="-urlA 10.42.226.111:8000 -module api.map.baidu.com"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </java>
+    </target>
+    <target name="ExcelDrivenUT">
+        <java classname="com.sapi.apitest.datadriven.ExcelDrivenUT" failonerror="true" fork="yes">
+            <classpath refid="APIAutomation.classpath"/>
+        </java>
+    </target>
+    <target name="ExcelDrivenUTTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.unittest.ExcelDrivenUTTest" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+
+    <target name="GeodataBatchImportTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.geodata.GeodataBatchImportTest" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="GeodataBatchImportTest.testExportPOIFromCsvFile">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.geodata.GeodataBatchImportTest" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="GeoTestSuite">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.GeoTestSuite" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="HttpRequest">
+        <java classname="com.sapi.apitest.datadriven.utils.HttpRequest" failonerror="true" fork="yes">
+            <classpath refid="APIAutomation.classpath"/>
+        </java>
+    </target>
+    <target name="SimpleEmailSender">
+        <java classname="com.sapi.apitest.datadriven.notificaitons.email.SimpleEmailSender" failonerror="true" fork="yes">
+            <classpath refid="APIAutomation.classpath"/>
+        </java>
+    </target>
+    <target name="SkeletonGenerator">
+        <java classname="com.sapi.apitest.datadriven.testcases.SkeletonGenerator" failonerror="true" fork="yes">
+            <classpath refid="APIAutomation.classpath"/>
+        </java>
+    </target>
+    <target name="TestA (1)">
+        <java classname="com.sapi.apitest.datadriven.testcases.TestA" failonerror="true" fork="yes">
+            <classpath refid="APIAutomation.classpath"/>
+        </java>
+    </target>
+    <target name="TestA">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestA" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestBase">
+        <java classname="com.sapi.apitest.datadriven.TestBase" failonerror="true" fork="yes">
+            <classpath refid="APIAutomation.classpath"/>
+        </java>
+    </target>
+    <target name="TestGeodata">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testColumnDetail">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testColumnDetailAkMissing">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testColumnDetailGeotableidInvalid">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testColumnDetailGeotableidMissing">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testColumnDetailIdInvalid">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testColumnDetailIdMissing">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testColumnDetailSn">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testColumnListKeyParameter">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testColumnListNameParameter">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testColumnListSN">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testGeotableDetailSN">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testGeotableListNameParameter">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testGeotableListSN">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testHeaderColumnDetail">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testPoiDetail">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testPoiDetailGeotableIdInvalid">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testPoiDetailGeotableIdMissing">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testPoiDetailHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testPoiDetailIdInvalid">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testPoiDetailIdMissing">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testPoiDetailSn">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testPoiDetailStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testPoiList">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testPoiListBoundsParameter">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testPoiListDefaultPageSize">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testPoiListHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testPoiListIntSearchFieldParameter">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testPoiListSn">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testPoiListStringSearchFieldParameter">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testPoiListTagsParameter">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testPoiListTitleParameter">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata.testStatusLineColumnDetail">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata2">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata2" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeodata2.testColumnListSN1">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeodata2" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeosearch">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeosearch" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeosearch.testCallBackBoundsErrors">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeosearch" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeosearch.testLocal1">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeosearch" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeosearch.testLocalUserScenario">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeosearch" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestGeosearch.testResponseDemo">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestGeosearch" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestTrace.testBoundHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestTrace" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testBoundHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionDrivingType1JsonHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionDrivingType1JsonStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionDrivingType1XMLHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionDrivingType1XMLStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionDrivingType2JsonHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionDrivingType2JsonStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionDrivingType2XMLHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionDrivingType2XMLStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionTransitJsonHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionTransitJsonStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionTransitType2JsonHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionTransitType2JsonStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionTransitType2XMLHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionTransitType2XMLStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionTransitXMLHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionTransitXMLStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionWalkingType2JsonHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionWalkingType2JsonStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionWalkingType2XMLHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testDirectionWalkingType2XMLStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testGEOCoderJsonHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testGEOCoderJsonStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testGEOCoderXMLHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testGeoCoderXMLStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testGeoconvJsonHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testGeoconvJsonStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testIPJsonHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testPlaceEventDetailJSONContent">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testPlaceEventDetailJsonHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testPlaceEventDetailJsonStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testPlaceEventDetailXMLHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testPlaceEventDetailXMLStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testPlaceSearchJsonStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testPlaceSearchStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testPlaceSearchXMLHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testPlaceSuggestionJsonHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testPlaceSuggestionJsonStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testPlaceSuggestionXMLHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testPlaceSuggestionXMLStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testRGCJsonCallbackHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testRGCJsonHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testRGCJsonStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testRGCXMLHeaders">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="TestWebAPIConsistency.testRGCXMLStatusLine">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.sapi.apitest.datadriven.testcases.TestWebAPIConsistency" todir="${junit.output.dir}"/>
+            <classpath refid="APIAutomation.classpath"/>
+        </junit>
+    </target>
+    <target name="XmlAndJsonUtil">
+        <java classname="com.sapi.apitest.datadriven.utils.XmlAndJsonUtil" failonerror="true" fork="yes">
+            <classpath refid="APIAutomation.classpath"/>
+        </java>
+    </target>
+    <target name="junitreport">
+        <junitreport>
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        	<report todir="${junit.output.dir}/html" />
+        </junitreport>
+    </target>
+</project>
