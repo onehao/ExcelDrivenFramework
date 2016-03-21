@@ -1,0 +1,4 @@
+11:58:44.596 [main] TRACE com.sapi.testcase.geodata.testcases.TestA - asychronized logger.
+11:58:44.597 [main] ERROR com.sapi.testcase.geodata.testcases.TestA - test error
+11:59:28.794 [main] TRACE com.sapi.testcase.geodata.testcases.TestA - asychronized logger.
+11:59:28.795 [main] ERROR com.sapi.testcase.geodata.testcases.TestA - test error
