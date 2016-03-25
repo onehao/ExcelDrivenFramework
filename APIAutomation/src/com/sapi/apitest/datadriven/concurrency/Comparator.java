@@ -377,12 +377,12 @@ public class Comparator implements Callable<ComparatorResult> {
             	compResultsMap = null;
             }
             if (result.getCompState().equals(PASS)) {
-                passCase.add(result);
+                //TODO: passCase.add(result);
             } else {
                 failCase.add(result);
             }
         }
-        testcases.clear();
+        // testcases.clear();
     }
 
     /**

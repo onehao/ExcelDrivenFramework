@@ -108,7 +108,7 @@ public class ExcelDrivenTestCaseExecutor {
             }
             comparators.add(comparator);
         }
-        testcases.clear();
+        // testcases.clear();
         // List<Thread> threadPool = ThreadManager.getThreadPool(comparators);
         // ThreadManager.startThreadPool(threadPool);
         // ThreadManager.joinThreadPool(threadPool);
@@ -123,11 +123,10 @@ public class ExcelDrivenTestCaseExecutor {
         for (Future<ComparatorResult> r : results) {
             try {
                 failResult.addAll(r.get().getFailCase());
-                passResult.addAll(r.get().getPassCase());
+                //TODO: passResult.addAll(r.get().getPassCase());
             } catch (InterruptedException e) {
                 logger.error(e);
             } catch (ExecutionException e) {
-                // TODO Auto-generated catch block
                 logger.error(e);
             }
         }
