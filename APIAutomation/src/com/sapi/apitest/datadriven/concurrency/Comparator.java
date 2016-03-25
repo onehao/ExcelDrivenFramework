@@ -26,6 +26,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sapi.apitest.datadriven.CompareStrategyUtil;
 import com.sapi.apitest.datadriven.comparison.ComparisonEngine;
+import com.sapi.apitest.datadriven.concurrency.Comparator.ComparatorResult;
 import com.sapi.apitest.datadriven.entity.APIOutputPara;
 import com.sapi.apitest.datadriven.entity.ExcelDrivenTestCase;
 import com.sapi.apitest.datadriven.entity.TestExecutionResult;
@@ -38,7 +39,7 @@ import com.sapi.apitest.datadriven.utils.XmlAndJsonUtil;
  * @author wanhao01
  * 
  */
-public class Comparator implements Callable {
+public class Comparator implements Callable<ComparatorResult> {
 
     private static final int HTTP_CONTEXT_INDEX = 7;
 
@@ -342,7 +343,7 @@ public class Comparator implements Callable {
                     // Pattern pattern = Pattern.compile(rexString);
                     // Matcher matcher0 = pattern.matcher(resultString0.);
                     // Matcher matcher1 = pattern.matcher(resultString1);
-                    if (resultlist.get(0).matches(rexString)
+                    if (resultlist.get(1).matches(rexString)
                             && resultlist.get(2).matches(rexString)) {
                         compResultsMap
                                 .put(CompareStrategyUtil.STRING_REGEX,
@@ -362,11 +363,16 @@ public class Comparator implements Callable {
                 }
                 result.setCompState(comparaStatus);
                 result.setCompDetail(convertMapToString(compResultsMap));
+                resultlist.clear();
+                resultlist = null;
 
             } catch (Exception e) {
                 e.printStackTrace();
                 result.setCompState(FAIL);
                 result.setCompDetail(e.toString());
+            } finally{
+            	compResultsMap.clear();
+            	compResultsMap = null;
             }
             if (result.getCompState().equals(PASS)) {
                 passCase.add(result);

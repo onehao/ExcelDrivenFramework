@@ -21,6 +21,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.kohsuke.args4j.CmdLineException;
@@ -67,6 +68,7 @@ public class LogDiffRunner {
   
             return;  
         }  
+        StringUtils.isEmpty("");
         ApplicationContext.domainA = runnerArgs.urlA;
         ApplicationContext.domainB = runnerArgs.urlB;
         List<ExcelDrivenTestCase> testcases = new ArrayList<ExcelDrivenTestCase>();
