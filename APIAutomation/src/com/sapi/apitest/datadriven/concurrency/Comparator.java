@@ -244,6 +244,7 @@ public class Comparator implements Callable<ComparatorResult> {
                 }
             }
         }
+        
         resultSet.add(resultStatus);
         resultSet.add(resultString0);
         resultSet.add(resultString1);
@@ -253,6 +254,7 @@ public class Comparator implements Callable<ComparatorResult> {
         if (resultStatus.equals(FAIL)) {
             logger.info(compResultsMap);
         }
+        testcase = null;
         return resultSet;
     }
 
@@ -380,7 +382,7 @@ public class Comparator implements Callable<ComparatorResult> {
                 failCase.add(result);
             }
         }
-
+        testcases.clear();
     }
 
     /**

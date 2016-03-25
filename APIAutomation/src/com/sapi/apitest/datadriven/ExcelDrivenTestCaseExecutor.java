@@ -108,6 +108,7 @@ public class ExcelDrivenTestCaseExecutor {
             }
             comparators.add(comparator);
         }
+        testcases.clear();
         // List<Thread> threadPool = ThreadManager.getThreadPool(comparators);
         // ThreadManager.startThreadPool(threadPool);
         // ThreadManager.joinThreadPool(threadPool);
