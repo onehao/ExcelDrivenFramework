@@ -94,6 +94,7 @@ public class LogDrivenUT {
 
 	public void getAndExecuteTestCasesForDiff(
 			List<ExcelDrivenTestCase> testcases, String module, String apiName, int threadCount) {
+		this.cases = testcases;
 		executeTestcasesForDiff(testcases, module, apiName,threadCount);
 	}
 
