@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,9 +54,10 @@ public class ExcelDrivenTestCaseExecutor {
 			.getStackTrace()[1].getClassName());
 
 	// The following section defined the tempalte structure of the reporting.
-	private final String noResult = "<h2>no execution result.</h2>";
+	private final String noResult = "<h2>all execution test passed.</h2>";
 	private final String resultSummaryHtmlTemplate = "<h2>Totally executed %d Testcases, Diff fail :"
 			+ " %d, fail rate: %f%s</h2><br />";
+	private final String resultExecutionTimeHtmlTemplate = "<h2>Totally executed time : %d seconds</h2><br />";
 	private final String failedHeaderHtmlTemplate = "<h3 style=\"color:#FF0000\">failed test cases list: </h3>";
 	private final String passedHeaderHtmlTemplate = "<h3 style=\"color:#00FF00\">passed test cases list: </h3>";
 	private final String compareDetailHtmlTemplate = "compare details : %s\r\n\r\n<br/>";
@@ -66,6 +68,12 @@ public class ExcelDrivenTestCaseExecutor {
 
 	private static final String PASS = "PASS";
 	private static final String FAIL = "FAIL";
+	
+//	public static AtomicInteger count  = new AtomicInteger();
+//	public static AtomicInteger failedCount  = new AtomicInteger();
+	
+	public static int count  = 0;
+	public static int failedCount  = 0;
 
 	// used to store the test cases
 	List<ExcelDrivenTestCase> cases = new LinkedList<ExcelDrivenTestCase>();
@@ -151,14 +159,14 @@ public class ExcelDrivenTestCaseExecutor {
 	 * @param result
 	 */
 	public void saveResult(String savePath,
-			List<List<TestExecutionResult>> result) {
+			List<List<TestExecutionResult>> result, long seconds) {
 		OutputStreamWriter writer;
 
 		try {
 			writer = new OutputStreamWriter(new FileOutputStream(new File(
 					savePath)), "utf8");
 			BufferedWriter bwriter = new BufferedWriter(writer);
-			String content = resultFormat(result);
+			String content = resultFormat(result, seconds);
 			Template resultContent = new TemplateImpl();
 			resultContent.getReport(bwriter, content);
 			bwriter.close();
@@ -179,7 +187,7 @@ public class ExcelDrivenTestCaseExecutor {
 	 * @return the result content.
 	 * @throws IOException
 	 */
-	private String resultFormat(List<List<TestExecutionResult>> result)
+	private String resultFormat(List<List<TestExecutionResult>> result, long seconds)
 			throws IOException {
 		StringBuilder content = new StringBuilder();
 		if (result == null || result.size() != 2
@@ -200,6 +208,7 @@ public class ExcelDrivenTestCaseExecutor {
 						.size(), (float) result.get(0).size()
 						/ (this.cases.size()) * 100,
 				"%"));
+		content.append(String.format(Locale.CHINA, resultExecutionTimeHtmlTemplate, seconds));
 		// content.append("---------------------------------------------------------------------------------------\r\n");
 		content.append(failedHeaderHtmlTemplate);
 		int count = 1;

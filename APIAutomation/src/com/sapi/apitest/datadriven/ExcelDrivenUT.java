@@ -30,6 +30,7 @@ import javax.mail.Multipart;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 
+import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -65,6 +66,8 @@ public class ExcelDrivenUT {
             .getStackTrace()[1].getClassName());
 
     private final String resultSummary = "Totally executed %d Testcases, Diff fail : %d，fail rate: %f%s\r\n\r\n";
+    
+    private final String resultExecutionTimeHtmlTemplate = "Totally executed time : %d seconds.\r\n\r\n";
 
     private final String emailProperty = "notification.email";
     
@@ -98,7 +101,7 @@ public class ExcelDrivenUT {
      * Get the test cases from each worksheet and execute the cases sheet by
      * sheet.
      */
-    public void getAndExecuteTestCases() {
+    public void getAndExecuteTestCases(int threadCount) {
         Workbook wb = context.getWorkbook();
         Sheet sheet = null;
         
@@ -106,13 +109,10 @@ public class ExcelDrivenUT {
             List<ExcelDrivenTestCase> testcases = new LinkedList<ExcelDrivenTestCase>();
             sheet = wb.getSheet(sheetName);
             testcases = ExcelUtils.getExcelDrivenTestCases(context, sheet);
-            executeTestcases(testcases, sheetName);
+            executeTestcases(testcases, sheetName, threadCount);
         }
     }
-    
-    public void getAndExecuteTestCasesForDiff(List<ExcelDrivenTestCase> testcases, String module, String apiName) {
-            executeTestcasesForDiff(testcases, module, apiName);
-    }
+
 
     /**
      * Execute test cases in the specific excel worksheet.
@@ -121,14 +121,16 @@ public class ExcelDrivenUT {
      * @param sheetName
      */
     public void executeTestcases(List<ExcelDrivenTestCase> testcases,
-            String sheetName) {
+            String sheetName, int threadCount) {
+    	StopWatch watch = new StopWatch();
+		watch.start();
         String workbookName = CompareStrategyUtil.getNameFromLocation(context
                 .getExcelFileLocation());
         String rulePath = String.format("%s_%s.testrules", workbookName,
                 sheetName);
         if (!new File(rulePath).exists()) {
             generateCompareRuleFile(context.getWorkbook(), workbookName,
-                    sheetName);
+                    sheetName, threadCount);
         }
         Map<String, APIOutputPara> rules = CompareStrategyUtil
                 .readRules(rulePath);
@@ -144,9 +146,9 @@ public class ExcelDrivenUT {
                 ApplicationContext.domainA == null ? context.getDomainA()
                         : ApplicationContext.domainA,
                 ApplicationContext.domainB == null ? context.getDomainB()
-                        : ApplicationContext.domainB, testcases, rules, 5);
+                        : ApplicationContext.domainB, testcases, rules, threadCount);
 
-        this.executor.saveResult(logPath, result);
+        this.executor.saveResult(logPath, result, watch.getTime() / 1000);
         sendEmail(logPath, result);
     }
     
@@ -158,12 +160,14 @@ public class ExcelDrivenUT {
      * @param sheetName
      */
     public void executeTestcasesForDiff(List<ExcelDrivenTestCase> testcases,
-            String module, String apiName) {
+            String module, String apiName, int threadCount) {
+    	StopWatch watch = new StopWatch();
+		watch.start();
         String rulePath = String.format("%s_%s.testrules", module,
         		apiName);
         if (!new File(rulePath).exists()) {
             generateCompareRuleFile(context.getWorkbook(), module,
-            		apiName);
+            		apiName, threadCount);
         }
         Map<String, APIOutputPara> rules = CompareStrategyUtil
                 .readRules(rulePath);
@@ -181,7 +185,7 @@ public class ExcelDrivenUT {
                 ApplicationContext.domainB == null ? context.getDomainB()
                         : ApplicationContext.domainB, testcases, rules, 5);
 
-        this.executor.saveResult(logPath, result);
+        this.executor.saveResult(logPath, result, watch.getTime() / 1000);
     }
 
     /**
@@ -277,12 +281,12 @@ public class ExcelDrivenUT {
      * Generate the key comparison level rules to the file named as
      * 'workbookName'_'sheetName'.testrules
      */
-    public void generateCompareRuleFiles() {
+    public void generateCompareRuleFiles(int threadCount) {
         Workbook wb = context.getWorkbook();
         String workbookName = CompareStrategyUtil.getNameFromLocation(context
                 .getExcelFileLocation());
         for (String sheetName : context.getWorksheets()) {
-            generateCompareRuleFile(wb, workbookName, sheetName);
+            generateCompareRuleFile(wb, workbookName, sheetName, threadCount);
         }
     }
 
@@ -294,7 +298,7 @@ public class ExcelDrivenUT {
      * @param sheetName
      */
     private void generateCompareRuleFile(Workbook wb, String workbookName,
-            String sheetName) {
+            String sheetName, int threadCount) {
         Sheet sheet;
         List<ExcelDrivenTestCase> testcases = new LinkedList<ExcelDrivenTestCase>();
         sheet = wb.getSheet(sheetName);
@@ -303,10 +307,11 @@ public class ExcelDrivenUT {
         CompareStrategyUtil.generatCompareRule(
                 testcases,
                 String.format("%s_%s.testrules", workbookName,
-                        sheet.getSheetName()));
+                        sheet.getSheetName()), threadCount);
     }
 
     public static void main(String[] args) {
+    	int threadCount = 10; 
         Calendar now = new GregorianCalendar(Locale.CHINA);
         String timestamp = String.format("%d%d%d%d%d%d",
                 now.get(Calendar.YEAR), now.get(Calendar.MONTH) + 1,
@@ -315,6 +320,6 @@ public class ExcelDrivenUT {
         System.out.println(timestamp);
         ExcelDrivenUT ut = new ExcelDrivenUT();
         // ut.generateCompareRuleFiles();
-        ut.getAndExecuteTestCases();
+        ut.getAndExecuteTestCases(threadCount);
     }
 }

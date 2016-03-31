@@ -69,8 +69,8 @@ public class CompareStrategyUtil {
      * @param rulePath: the path of the rule file.
      */
     public static void generatCompareRule(List<ExcelDrivenTestCase> testcases,
-            String rulePath) {
-        Set<String> keys = getOutputKey(testcases, 1);
+            String rulePath, int threadCount) {
+        Set<String> keys = getOutputKey(testcases, threadCount);
         saveRules(rulePath, keys);
     }
 

@@ -38,8 +38,9 @@ public class TestGeoSearchExcelDriven extends TestBase{
 	@Test
 	@UseCase(description = "fast fail", isFastFail = false)
 	public void test() {
+		int threadCount = 10;
 		ExcelDrivenUT ut = new ExcelDrivenUT();
-		ut.getAndExecuteTestCases();
+		ut.getAndExecuteTestCases(threadCount);
 	}
 
 }

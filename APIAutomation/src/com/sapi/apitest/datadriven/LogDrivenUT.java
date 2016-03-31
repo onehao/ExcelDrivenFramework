@@ -12,7 +12,6 @@ package com.sapi.apitest.datadriven;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -30,6 +29,7 @@ import javax.mail.Multipart;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 
+import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.runner.Result;
@@ -62,6 +62,7 @@ public class LogDrivenUT {
 			.getStackTrace()[1].getClassName());
 
 	private final String resultSummary = "Totally executed %d Testcases, Diff fail : %d，fail rate: %f%s\r\n\r\n";
+	private final String resultExecutionTimeHtmlTemplate = "Totally executed time : %d seconds.\r\n\r\n";
 
 	private final String emailProperty = "notification.email";
 
@@ -107,9 +108,11 @@ public class LogDrivenUT {
 	 */
 	public void executeTestcasesForDiff(List<ExcelDrivenTestCase> testcases,
 			String module, String apiName, int threadCount) {
+		StopWatch watch = new StopWatch();
+		watch.start();
 		String rulePath = String.format("%s_%s.testrules", module, apiName);
 		if (!new File(rulePath).exists()) {
-			generateCompareRuleFile(testcases, module, apiName);
+			generateCompareRuleFile(testcases, module, apiName, threadCount);
 		}
 		Map<String, APIOutputPara> rules = CompareStrategyUtil
 				.readRules(rulePath);
@@ -124,9 +127,8 @@ public class LogDrivenUT {
 		List<List<TestExecutionResult>> result = this.executor.test(
 				ApplicationContext.domainA,
 				ApplicationContext.domainB, testcases, rules, threadCount);
-
-		this.executor.saveResult(logPath, result);
-		sendEmail(logPath, result);
+		this.executor.saveResult(logPath, result, watch.getTime() / 1000);
+		// sendEmail(logPath, result, watch.getTime() / 1000);
 	}
 
 
@@ -137,16 +139,17 @@ public class LogDrivenUT {
 	 * @param result
 	 */
 	private void sendEmail(String logPath,
-			List<List<TestExecutionResult>> result) {
+			List<List<TestExecutionResult>> result, long seconds) {
 		List<String> emailAddress = Arrays.asList(this.properties.getProperty(
 				emailProperty).split(";"));
 		SimpleEmailSender sender = EmailSenderFactory
 				.getSender(EmailSenderType.SERVICE);
-		String text = String.format(Locale.CHINA, resultSummary, (result.get(0)
-				.size() + result.get(1).size()), result.get(0).size(),
+		String text = String.format(Locale.CHINA, resultSummary, (this.cases.size()), result.get(0).size(),
 				(float) result.get(0).size()
-						/ (result.get(0).size() + result.get(1).size()) * 100,
+						/ (this.cases.size()) * 100,
 				"%");
+		text += String.format(Locale.CHINA, resultExecutionTimeHtmlTemplate,seconds);
+		
 		try {
 			// create and fill the first message part
 			MimeBodyPart mbp1 = new MimeBodyPart();
@@ -182,7 +185,7 @@ public class LogDrivenUT {
 				.getSender(EmailSenderType.SERVICE);
 		StringBuilder text = new StringBuilder();
 		text.append(String.format("Totally executed: %s, failed: %s\n\r\n",
-				result.getValue().getRunCount(), result.getValue()
+				this.cases.size(), result.getValue()
 						.getFailureCount()));
 		for (Failure fail : result.getValue().getFailures()) {
 			text.append(String.format("Test Case: %s \n", fail.getDescription()
@@ -229,11 +232,11 @@ public class LogDrivenUT {
 	 * @param sheetName
 	 */
 	private void generateCompareRuleFile(List<ExcelDrivenTestCase> testcases, String module,
-			String apiName) {
+			String apiName, int threadCount) {
 		CompareStrategyUtil.generatCompareRule(
 				testcases,
 				String.format("%s_%s.testrules", module,
-						apiName));
+						apiName), threadCount);
 	}
 
 	public static void main(String[] args) {
