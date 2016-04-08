@@ -193,7 +193,12 @@ public class ExcelDrivenTestCaseExecutor {
 		if (result == null || result.size() != 2
 				|| result.get(0).size() + result.get(1).size() == 0) {
 			content.append(noResult);
-
+			content.append(String.format(Locale.CHINA, resultSummaryHtmlTemplate,
+					(this.cases.size()), result.get(0)
+							.size(), (float) result.get(0).size()
+							/ (this.cases.size()) * 100,
+					"%"));
+			content.append(String.format(Locale.CHINA, resultExecutionTimeHtmlTemplate, seconds));
 			return content.toString();
 		}
 		List<TestExecutionResult> failResult = result.get(0);
