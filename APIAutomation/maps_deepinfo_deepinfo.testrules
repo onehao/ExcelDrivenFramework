@@ -3,8 +3,8 @@
 entireStringEquals=false
 stringRegex=
 code:json=equal
-timestamp:json=nocheck
-version:json=equal
+timestamp:json=exist
+version:json=exist
 result:json=equal
 message:json=equal
 poiinfo.idDictionaries.index_info_id:json=equal

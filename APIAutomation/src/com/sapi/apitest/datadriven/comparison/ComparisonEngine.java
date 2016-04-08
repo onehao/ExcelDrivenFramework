@@ -54,23 +54,29 @@ public class ComparisonEngine {
             throws Exception {
 
         String compStatus = "PASS";
-        Map<String, String> result1 = parseParaWithDetailFromJosn(
+        LinkedHashMap<String, String> result1 = parseParaWithDetailFromJosn(
                 resultObject1, "");
-        Map<String, String> result2 = parseParaWithDetailFromJosn(
+        LinkedHashMap<String, String> result2 = parseParaWithDetailFromJosn(
                 resultObject2, "");
+        
+        @SuppressWarnings("unchecked")
+		LinkedHashMap<String, String> result2OutNumberKey = (LinkedHashMap<String, String>) result2.clone();
 
         Set<String> keySet1 = result1.keySet();
         for (String paraName : keySet1) {
             String value1 = result1.get(paraName);
-            String value2 = result2.get(paraName);
-            result2.remove(paraName);
+            String value2 = result2OutNumberKey.get(paraName);
+            
+            result2OutNumberKey.remove(paraName);
             compStatus = compareWithRule(keysRulesMap, compResultsMap,
                     compStatus, paraName, value1, value2);
         }
-        Set<String> keySet2 = result2.keySet();
+        
+        // check whether there are some key that result2 has but result1 not.
+        Set<String> keySet2 = result2OutNumberKey.keySet();
         for (String paraName : keySet2) {
             String value1 = null;
-            String value2 = result2.get(paraName);
+            String value2 = result2OutNumberKey.get(paraName);
             compStatus = compareWithRule(keysRulesMap, compResultsMap,
                     compStatus, paraName, value1, value2);
         }
@@ -185,9 +191,9 @@ public class ComparisonEngine {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public static Map<String, String> parseParaWithDetailFromJosn(
+    public static LinkedHashMap<String, String> parseParaWithDetailFromJosn(
             Object jsonObject, String pre) {
-        Map<String, String> result = new LinkedHashMap<String, String>();
+    	LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
         new ObjectMapper();
         Set<String> keySet = null;
         Map<String, ?> jsonMap = null;
