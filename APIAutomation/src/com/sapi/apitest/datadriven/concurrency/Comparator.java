@@ -403,6 +403,8 @@ public class Comparator implements Callable<ComparatorResult> {
 			} else {
 				failCase.add(result);
 			}
+			
+			System.gc();
 		}
 		// testcases.clear();
 	}
