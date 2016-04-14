@@ -1,9 +1,9 @@
 
-Part 1: Excel driven framework
+#Part 1: Excel driven framework
 
 
 
-Part2: log diff framework.
+#Part2: log diff framework.
 1. 命令参数java -Xms2048m -Xmx2048m -jar logdiffrunnerv3.jar -apiName deepinfo -logLocation aseswsvalueaddeddeepinfo -module maps -urlA 10.101.12.24 -urlB 10.101.12.24 -threadCount 16 
 2.日志格式，tengine过滤格式类似于，换行分割。
 
@@ -11,7 +11,7 @@ Part2: log diff framework.
 
 3. 对比字段，第一次运行会生成验证配置文件，格式如下，建议第一次运行选取样本日志量100-1000条之间，输出受输入参数影响越大，选取样本日志量越大。同一api所有case公用一个验证规则。
 
-#the compare rules are: equal, notnull, exist, count, regex, precision, nocheck.
+the compare rules are: equal, notnull, exist, count, regex, precision, nocheck.
 entireStringEquals=false 是否使用全局字符串相等比较。
 stringRegex= 
 code:json=equal 相等
