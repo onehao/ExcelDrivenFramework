@@ -46,7 +46,7 @@ testcase.domainB=api.map.baidu.com
 
 testcase.ruleName=geosearch
 
-notification.email=wanhao01@baidu.com
+notification.email=hackerone111@gmail.com
 
 step 2:
 对于diff，
