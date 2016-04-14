@@ -1,6 +1,60 @@
 
 #Part 1: Excel driven framework
+参考ExcelDrivenUTTest.java
+step1： 加载配置文件，
+配置文件如下， 指定从excel读取的方式，excel 数据文件位置，测试参数与excel data的对应关系
+#the config for the excel driven tests.
+testcase.requestType=E
+testcase.testURL=D
+testcase.priority=C
 
+	
+testcase.category=A
+	
+testcase.description=B
+	
+testcase.expectedResult=F
+
+testcase.actualResult=G
+	
+testcase.isIgnore=H
+	
+testcase.isFastFail=I
+	
+testcase.bugURL=J
+	
+testcase.result=K
+	
+#指定worksheet來读取信息，语法Sheet(sheetname),没有括号，只支持英文 
+testcase.owner=Sheet(overview).C4
+	
+testcase.releaseVersion=Sheet(overview).C2
+	
+testcase.caseVersion=Sheet(overview).C3
+	
+testcase.apiName=Sheet(overview).C1
+
+testcase.startline=2
+	
+testcase.excelFileLocation=D:\\workspace\\satp2\\APIAutomation\\src\\com\\sapi\\apitest\\datadriven\\unittest\\test1.xls
+
+testcase.worksheets=nearby|bounds|local
+
+testcase.domainA=api.map.baidu.com
+
+testcase.domainB=api.map.baidu.com
+
+#testcase.ruleName=geosearch
+
+notification.email=wanhao01@baidu.com
+
+step 2:
+对于diff，
+a) base环境和测试环境diff， 比较测试环境和base环境差别
+目前支持json，xml输出对比，支持在不同excel sheet设置不同接口， 会根据excel名称，worksheet生成对应比对规则
+the compare rules are: equal, notnull, exist, count, regex, precision, nocheck.
+b) 同一接口所有case公用配置文件同一规则，支持不同配置，对不同测试集采用不同的比对策略。
+c) 支持本地&email report。
 
 
 #Part2: log diff framework.
