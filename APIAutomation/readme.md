@@ -3,7 +3,7 @@
 参考ExcelDrivenUTTest.java
 step1： 加载配置文件，
 配置文件如下， 指定从excel读取的方式，excel 数据文件位置，测试参数与excel data的对应关系
-#the config for the excel driven tests.
+the config for the excel driven tests.
 testcase.requestType=E
 testcase.testURL=D
 testcase.priority=C
@@ -25,7 +25,7 @@ testcase.bugURL=J
 	
 testcase.result=K
 	
-#指定worksheet來读取信息，语法Sheet(sheetname),没有括号，只支持英文 
+指定worksheet來读取信息，语法Sheet(sheetname),没有括号，只支持英文 
 testcase.owner=Sheet(overview).C4
 	
 testcase.releaseVersion=Sheet(overview).C2
@@ -44,7 +44,7 @@ testcase.domainA=api.map.baidu.com
 
 testcase.domainB=api.map.baidu.com
 
-#testcase.ruleName=geosearch
+testcase.ruleName=geosearch
 
 notification.email=wanhao01@baidu.com
 
