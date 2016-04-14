@@ -107,10 +107,6 @@ public class LogDiffRunner {
         
         LogDrivenUT ut = new LogDrivenUT();
         ut.getAndExecuteTestCasesForDiff(testcases, runnerArgs.module, runnerArgs.apiName, runnerArgs.threadCount);
-        
-     // ut.generateCompareRuleFiles();
-//     		List<ExcelDrivenTestCase> testcases;
-//     		ut.getAndExecuteTestCasesForDiff();
 
     }
 }
