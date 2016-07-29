@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Exceldrivenframework by onehao</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Exceldrivenframework</h1>
+        <h2></h2>
+        <a href="https://github.com/onehao/ExcelDrivenFramework" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <p>Welcome to the ExcelDrivenFramework wiki!
+Part 1: Excel driven framework
+参考ExcelDrivenUTTest.java step1： 加载配置文件， 配置文件如下， 指定从excel读取的方式，excel 数据文件位置，测试参数与excel data的对应关系 the config for the excel driven tests. testcase.requestType=E testcase.testURL=D testcase.priority=C</p>
+
+<p>testcase.category=A</p>
+
+<p>testcase.description=B</p>
+
+<p>testcase.expectedResult=F</p>
+
+<p>testcase.actualResult=G</p>
+
+<p>testcase.isIgnore=H</p>
+
+<p>testcase.isFastFail=I</p>
+
+<p>testcase.bugURL=J</p>
+
+<p>testcase.result=K</p>
+
+<p>指定worksheet來读取信息，语法Sheet(sheetname),没有括号，只支持英文 testcase.owner=Sheet(overview).C4</p>
+
+<p>testcase.releaseVersion=Sheet(overview).C2</p>
+
+<p>testcase.caseVersion=Sheet(overview).C3</p>
+
+<p>testcase.apiName=Sheet(overview).C1</p>
+
+<p>testcase.startline=2</p>
+
+<p>testcase.excelFileLocation=D:\workspace\satp2\APIAutomation\src\com\sapi\apitest\datadriven\unittest\test1.xls</p>
+
+<p>testcase.worksheets=nearby|bounds|local</p>
+
+<p>testcase.domainA=api.map.baidu.com</p>
+
+<p>testcase.domainB=api.map.baidu.com</p>
+
+<p>testcase.ruleName=geosearch</p>
+
+<p>notification.email=<a href="mailto:hackerone111@gmail.com">hackerone111@gmail.com</a></p>
+
+<p>step 2: 对于diff， a) base环境和测试环境diff， 比较测试环境和base环境差别 目前支持json，xml输出对比，支持在不同excel sheet设置不同接口， 会根据excel名称，worksheet生成对应比对规则 the compare rules are: equal, notnull, exist, count, regex, precision, nocheck. b) 同一接口所有case公用配置文件同一规则，支持不同配置，对不同测试集采用不同的比对策略。 c) 支持本地&amp;email report。</p>
+
+<p>Part2: log diff framework.
+命令参数java -Xms2048m -Xmx2048m -jar logdiffrunnerv3.jar -apiName deepinfo -logLocation aseswsvalueaddeddeepinfo -module maps -urlA 10.101.12.24 -urlB 10.101.12.24 -threadCount 16 2.日志格式，tengine过滤格式类似于，换行分割。
+/ws/valueadded/deepinfo/search?sign=3957CF81D57C293CC271497EB3CCDA4F&amp;channel=pc_openapi&amp;poiid=B001B16DGU&amp;mode=255&amp;cms_ver=2&amp;output=json&amp;dip=11060&amp;request_serial_number=c76a6f32474e4e99814aa4c9778088c0&amp;gsid=aosmapsproxy010185216197.su18ee1b62c72465865e56427d2c8d586d0a</p>
+
+<p>对比字段，第一次运行会生成验证配置文件，格式如下，建议第一次运行选取样本日志量100-1000条之间，输出受输入参数影响越大，选取样本日志量越大。同一api所有case公用一个验证规则。
+the compare rules are: equal, notnull, exist, count, regex, precision, nocheck. entireStringEquals=false 是否使用全局字符串相等比较。 stringRegex= code:json=equal 相等 timestamp:json=nocheck 不验证 version:json=equal result:json=equal message:json=equal poiinfo.idDictionaries.index_info_id:json=equal poiinfo.idDictionaries.hotel_dianping_api_id:json=regex:^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$ poiinfo.idDictionaries.dianping_api_id:json=equal poiinfo.idDictionaries.muku_id:json=equal poiinfo.idDictionaries.sinapoiid:json=equal poiinfo.idDictionaries.alio2o_api_id:json=equal poiinfo.idDictionaries.weibo_sina_id:json=equal poiinfo.idDictionaries.groupbuy_meituan2_api_id:json=equal poiinfo.idDictionaries.hotel_qunar_api_id:json=equal poiinfo.idDictionaries.con_toplist_id:json=equal poiinfo.idDictionaries.hotel_elong_api_id:json=equal</p>
+
+<p>the compare rules are: equal, notnull, exist, count, regex, precision, nocheck.
+推荐使用最新版本</p>
+
+<p>logdiffrunnerv4.jar</p>
+
+<p>v4 优化内存使用。</p>
+
+<p>logdiffrunnerv5.jar</p>
+
+<p>v5优化报表统计,增加时间统计。</p>
+
+<p>logdiffrunnerv6.jar</p>
+
+<p>v6,提高稳定性， 修改thread，增加console输出running&amp;failed count，暂去掉邮件通知。</p>
+
+<p>logdiffrunnerv7.jar</p>
+
+<p>v7,bug - fix ，exist比较规则修正。</p>
+
+<p>logdiffrunnerv8.jar</p>
+
+<p>v8: 针对全部pass场景优化。</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/onehao/ExcelDrivenFramework/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/onehao/ExcelDrivenFramework/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/onehao/ExcelDrivenFramework"></a> is maintained by <a href="https://github.com/onehao">onehao</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
